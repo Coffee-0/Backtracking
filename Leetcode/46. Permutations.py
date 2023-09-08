@@ -10,10 +10,10 @@ def permutations(nums):
             # skip the number if it is already in the path, (we dont want duplicates)
             if number in path:
                 continue
-            # make a choice
+            # make a choice: Include the current number
             path.append(number)
-            backtrack(nums, path, result)  # Recurse
-            # undo the choice
+            backtrack(nums, path, result)  # Recurse with new path
+            # undo the choice: exclude the current number
             path.pop()
 
     result = []
