@@ -53,6 +53,8 @@ def permutations(nums):
 **[47. Permutations II](https://leetcode.com/problems/permutations-ii/)**
 Given a collection of numbers, `nums`, that might contain duplicates, return _all possible unique permutations **in any order**._
 
+`- In this case we are just making a small change: Instead of Iterating over the input array, convert it to a frequency map and iterate over the frequency map.`
+
 ```python
 def permuteUnique(nums):
     def backtrack(frequency, path, result):
@@ -81,5 +83,63 @@ def permuteUnique(nums):
     result = []
     backtrack(frequencyMap, [], result)
     return result
+
+```
+
+## Backtracking on Subsets: Leetcode
+
+Now let's Solve some questions on subsets.
+
+**[78. Subsets](https://leetcode.com/problems/subsets/)**
+Given an integer array `nums` of **unique** elements, return \_all possible subsets.
+The solution set **must not** contain duplicate subsets. Return the solution in **any order**.
+
+```python
+def subsets(nums):
+    def backtrack(start, path, result):
+        # BaseCase: add the subset to result
+        result.append(path[:])
+        # Explore the entire range starting drom start
+        for i in range(start, len(nums)):
+            # Make a choice: Include the current element in the subset
+            path.append(nums[i])
+            # Recurse with the next element and 'start' index
+            backtrack(i + 1, path, result)
+            # Undo the choice: Exclude the current element
+            path.pop()
+
+    result = []
+    backtrack(0, [], result)
+    return result
+
+```
+
+**[90. Subsets II](https://leetcode.com/problems/subsets-ii/)**
+Given an integer array `nums` that may contain duplicates, return _all possible_
+_subsets_.
+
+```python
+def subsetsWithDup(nums):
+    def backtrack(start, path):
+        # Add the current subset to the result
+        result.append(path[:])
+        # Explore choices: Iterate through elements from 'start' to the end
+        for i in range(start, len(nums)):
+            # Avoid duplicates by skipping elements that are the same as the previous element
+            if i > start and nums[i] == nums[i - 1]:
+                continue
+            # Make a choice: Include the current element in the subset
+            path.append(nums[i])
+            # Recurse with the next element and 'start' index
+            backtrack(i + 1, path)
+            # Undo the choice: Remove the last element to backtrack
+            path.pop()
+
+    # Sort the input list to handle duplicates
+    nums.sort()
+    result = []
+    backtrack(0, [])
+    return result
+
 
 ```
