@@ -143,3 +143,131 @@ def subsetsWithDup(nums):
 
 
 ```
+
+## Backtracking on Combinations: Leetcode
+
+Now let's Solve some questions on Combinations.
+
+**[77. Combinations](https://leetcode.com/problems/combinations/)**
+Given two integers `n` and `k`, return _all possible combinations of_ `k` _numbers chosen from the range_ `[1, n]`.
+
+```python
+def combine(n, k):
+    def backtrack(start, path):
+        # Base case: If the combination size equals k, add it to the result.
+        if len(path) == k:
+            result.append(path[:])  # Append a copy of the current combination
+            return
+        # Explore choices: Iterate through numbers, starting from 'start'.
+        for i in range(start, n + 1):
+            # Make a choice: Include the current number in the combination.
+            path.append(i)
+            # Recurse with the next number and the same combination size.
+            backtrack(i + 1, path)
+            # Undo the choice: Remove the last number to backtrack.
+            path.pop()
+
+    result = []
+    backtrack(1, [])  # Start with 'start' = 1 and an empty combination.
+    return result
+
+
+```
+
+**[39. Combination Sum](https://leetcode.com/problems/combination-sum/)**
+Given an array of **distinct** integers `candidates` and a target integer `target`, return _a list of all **unique combinations** of_ `candidates` _where the chosen numbers sum to_ `target`_._
+The **same** number may be chosen from `candidates` an **unlimited number of times**.
+
+```python
+def combination_sum(candidates, target):
+    def backtrack(start, target, path):
+        # Base case: If the target becomes zero, we found a valid combination.
+        if target == 0:
+            result.append(path[:])  # Append a copy of the current combination
+            return
+        # Explore choices: Iterate through candidates, starting from the 'start' index.
+        for i in range(start, len(candidates)):
+            # Check if the current candidate can be part of the solution.
+            if candidates[i] <= target:
+                # Make a choice: Include the current candidate in the combination.
+                path.append(candidates[i])
+                # Recurse with the same candidate (allowing duplicates) and updated target.
+                backtrack(i, target - candidates[i], path)
+                # Undo the choice: Remove the last candidate to backtrack.
+                path.pop()
+
+    result = []
+    backtrack(0, target, [])
+    return result
+
+```
+
+**[40. Combination Sum II](https://leetcode.com/problems/combination-sum-ii/)**
+Given a collection of candidate numbers (`candidates`) and a target number (`target`), find all unique combinations in `candidates` where the candidate numbers sum to `target`.
+Each number in `candidates` may only be used **once** in the combination.
+
+```python
+def combinationSum2(candidates, target):
+    def backtrack(start, target, path):
+        # Base case: If the target becomes zero, we found a valid combination.
+        if target == 0:
+            result.append(path[:])  # Append a copy of the current combination
+            return
+        # Explore choices: Iterate through candidates, starting from 'start' index.
+        for i in range(start, len(candidates)):
+            # Skip duplicates to avoid duplicate combinations.
+            if i > start and candidates[i] == candidates[i - 1]:
+                continue
+            # Check if the current candidate can be part of the solution.
+            if candidates[i] <= target:
+                # Make a choice: Include the current candidate in the combination.
+                path.append(candidates[i])
+                # Recurse with the next number and updated target.
+                backtrack(i + 1, target - candidates[i], path)
+                # Undo the choice: Remove the last candidate to backtrack.
+                path.pop()
+
+    # Sort the input list to handle duplicates.
+    candidates.sort()
+
+    result = []
+    backtrack(0, target, [])
+    return result
+
+```
+
+**[216. Combination Sum III](https://leetcode.com/problems/combination-sum-iii/)**
+Find all valid combinations of `k` numbers that sum up to `n` such that the following conditions are true:
+
+- Only numbers `1` through `9` are used.
+- Each number is used **at most once**.
+
+Return _a list of all possible valid combinations_.
+
+```python
+def combinationSum3(k, n):
+    def backtrack(start, path, current_sum):
+        # Base case: If we've found a combination of k numbers that sum up to n, add it to the result.
+        if len(path) == k and current_sum == n:
+            result.append(path[:])  # Append a copy of the current combination
+            return
+        # If the current sum exceeds n or the number of elements in the path exceeds k, stop exploring.
+        if current_sum > n or len(path) > k:
+            return
+        # Explore choices: Iterate through numbers from 'start' to 9.
+        for i in range(start, 10):
+            # Make a choice: Include the current number in the combination.
+            path.append(i)
+            # Recurse with the next number and updated sum.
+            backtrack(i + 1, path, current_sum + i)
+            # Undo the choice: Remove the last number to backtrack.
+            path.pop()
+
+    result = []
+    backtrack(1, [], 0)
+    return result
+
+
+```
+
+- **If you need more problems on backtracking you can check the leetcode folder.**
