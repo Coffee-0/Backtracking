@@ -25,4 +25,61 @@ Let's Solve some questions on permutations to understand backtracking better.
 
 **[46. Permutations](https://leetcode.com/problems/permutations/)**
 Given an array `nums` of distinct integers, return _all the possible permutations_.
-https://github.com/Coffee-0/Backtracking/blob/c0288c39aa05400e326b3a0fd24c9032792c22be/Leetcode/46.%20Permutations.py
+
+```python
+def permutations(nums):
+    def backtrack(nums, path, result):
+        # BaseCase: We have a valid permutation
+        # len(nums) == len(path) : means we have all the values from nums in path which forms a permutation
+        if len(nums) == len(path):
+            result.append(path[:])
+            return
+        # Explore choices: Iterate through nums
+        for number in nums:
+            # skip the number if it is already in the path, (we dont want duplicates)
+            if number in path:
+                continue
+            # make a choice: Include the current number
+            path.append(number)
+            backtrack(nums, path, result)  # Recurse with new path
+            # undo the choice: exclude the current number
+            path.pop()
+
+    result = []
+    backtrack(nums, [], result=result)
+    return result
+```
+
+**[47. Permutations II](https://leetcode.com/problems/permutations-ii/)**
+Given a collection of numbers, `nums`, that might contain duplicates, return _all possible unique permutations **in any order**._
+
+```python
+def permuteUnique(nums):
+    def backtrack(frequency, path, result):
+        # BaseCase: we found a valid permutation
+        if len(nums) == len(path):
+            result.append(path[:])
+            return
+        # Explore Choices: Iterate over the frequencyMap instead of nums
+        for n in frequency:
+            # if the frequency of element n in map is more than 0 then it can be used as an element in the permutation.
+            if frequency[n] > 0:
+                # Make Choice: decrement the frequency of n by 1 and add it to path
+                frequency[n] -= 1
+                path.append(n)
+                # Backtrack: Recurse with updated path and updated values in frequency Mapping
+                backtrack(frequency, path, result)
+                # Undo the Choice: increment the frequency of n by 1 and pop it to path, undoind what we did before
+                frequency[n] += 1
+                path.pop()
+
+    # frequency dictionary we eliminate the chances of iterating over duplicates
+    frequencyMap = {}
+    for n in nums:
+        frequencyMap[n] = frequencyMap.get(n, 0) + 1
+
+    result = []
+    backtrack(frequencyMap, [], result)
+    return result
+
+```
