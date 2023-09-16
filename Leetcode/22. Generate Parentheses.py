@@ -1,0 +1,2 @@
+def generateParenthesis(n):
+    pass

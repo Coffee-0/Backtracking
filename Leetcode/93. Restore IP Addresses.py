@@ -1,0 +1,2 @@
+def restoreIpAddresses(s):
+    pass
